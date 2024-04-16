@@ -1,0 +1,59 @@
+﻿@model List<Movie>
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-6 mb-4 ">
+            <div class="card">
+                <div class="row no-gutters">
+
+                    <div>
+                        <h5 class="card-title bg-secondary text-white p-2 mb-2">@item.Name</h5>
+                    </div>
+                    <div class="col-md-4">
+
+                        <img src="/images/movies/@item.ImgUrl" class="card-img" alt="Movie Image">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <p class="card-text">Price: $@item.Price</p>
+                            @if (item.Cinema != null)
+                            {
+                                <p class="card-text">Cinema: @item.Cinema.Name</p>
+                            }
+                            <p class="card-text">Start Date: @item.StartDate.ToShortDateString()</p>
+                            <p class="card-text">End Date: @item.EndDate.ToShortDateString()</p>
+                            
+                            @if (item.Category != null)
+                            {
+                                <p class="card-text">Category: @item.Category.Name</p>
+                            }
+
+                            <p class="card-text ">
+                                <b>Status: </b>
+                                @if (DateTime.Now >= item.StartDate && DateTime.Now <= item.EndDate)
+                                {
+                                    <span class="badge bg-success text-white">AVAILABLE</span>
+                                }
+                                else if (DateTime.Now > item.EndDate)
+                                {
+                                    <span class="badge bg-danger text-white">EXPIRED</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-primary text-white">UPCOMING</span>
+                                }
+
+                            </p>
+                            <div class="d-flex gap-2">
+                                <a href="/Movie/Details/@item.Id" class="btn btn-primary" style="background-color: white; color: black;">Show Details</a>
+                                <a class="btn btn-success text-white  @((DateTime.Now > item.EndDate) ? "disabled" : "")"
+                                   href="/Movie/AddToCart?movieName=@item.Name&"><i class="bi bi-cart-plus"></i> Add to Cart (Price @item.Price.ToString("c"))</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+`

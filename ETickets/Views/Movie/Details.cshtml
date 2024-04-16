@@ -1,0 +1,79 @@
+﻿@model MovieViewModel
+<div>
+    <h5 class="card-title bg-secondary text-white p-2 mb-2">@Model.Name</h5>
+</div>
+
+<div class="movie-details">
+    <div class="movie-image">
+        <img src="/images/movies/@Model.ImgUrl" alt="Movie Image" style="max-width: 100%; height: 150;" />
+    </div>
+    <div class="movie-info">
+        <p> @Model.Description</p>
+        <p>Price: @Model.Price</p>
+        @if (Model.Cinema != null)
+        {
+            <p> Cinema:@Model.Cinema.Name</p>
+        }
+        <p>StartDate: @Model.StartDate.ToShortDateString()</p>
+        <p>EndDate: @Model.EndDate.ToShortDateString()</p>
+        @if (Model.Category != null)
+        {
+            <p>Category: @Model.Category.Name</p>
+        }
+        <ul>
+            @if (Model.Actors != null)
+            {
+                @foreach (var actor in Model.Actors)
+                {
+                    <a href="/Actor/Details/@actor.Id">
+                        <img src="/images/cast/@actor.ProfilePicture" alt="Actor Image" style="max-width: 100px; max-height: 100px;" />
+                    </a>
+                }
+            }
+        </ul>
+        <p>Views: @Model.ViewsCount</p>
+
+        @if (!string.IsNullOrEmpty(Model.TrailerUrl))
+        {
+            <div class="trailer">
+                <h6>Trailer</h6>
+                <iframe src="@Model.TrailerUrl" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+               
+
+            </div>
+        }
+
+
+        <div class="col-md-12">
+            <div class="card-footer">
+                <p class="card-text">
+                    <a class="btn btn-outline-primary float-right" asp-action="Index">
+                        Back to List
+                    </a>
+                    <a class="btn btn-success text-white  @((DateTime.Now > Model.EndDate) ? "disabled" : "")"
+                       href="/Movie/AddToCart?movieName=@Model.Name&"><i class="bi bi-cart-plus"></i> Add to Cart (Price @Model.Price.ToString("c"))</a>
+
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .movie-details {
+        display: flex;
+        gap: 20px;
+    }
+
+    .movie-image {
+        width: 50%;
+    }
+
+    .movie-info {
+        width: 50%;
+    }
+
+    .trailer {
+        margin-top: 20px;
+    }
+</style>

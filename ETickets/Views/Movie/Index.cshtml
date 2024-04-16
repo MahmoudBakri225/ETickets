@@ -1,0 +1,152 @@
+﻿@model List<Movie>
+@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <div class="alert alert-danger text-center" role="alert">
+        @ViewBag.ErrorMessage
+    </div>
+}
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="row no-gutters">
+                    <div>
+                        <h5 class="card-title bg-secondary text-white p-2 mb-2 d-flex justify-content-between">
+                            <span>@item.Name</span>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-controller="Movie" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i></a>
+                            }
+                        </h5>
+                    </div>
+                    <div class="col-md-4">
+                        <img src="/images/movies/@item.ImgUrl" class="card-img" alt="Movie Image">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <p class="card-text">Price: $@item.Price</p>
+                            @if (item.Cinema != null)
+                            {
+                                <p> Cinema:@item.Cinema.Name</p>
+                            }
+                            <p class="card-text">Start Date: @item.StartDate.ToString("dd MMM yy")</p>
+                            <p class="card-text">End Date: @item.EndDate.ToString("dd MMM yy")</p>
+
+                            @if (item.Category != null){
+                            <p class="card-text">
+                                <b>Category: </b>
+                                <a asp-controller="Categories" asp-action="AllMovies" asp-route-id="@item.Category.CategoryId">@item.Category.Name</a>
+                            </p>
+                            }
+
+                            <p class="card-text">
+                                <b>Status: </b>
+                                @if (DateTime.Now >= item.StartDate && DateTime.Now <= item.EndDate)
+                                {
+                                    <span class="badge bg-success text-white">AVAILABLE</span>
+                                }
+                                else if (DateTime.Now > item.EndDate)
+                                {
+                                    <span class="badge bg-danger text-white">EXPIRED</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-primary text-white">UPCOMING</span>
+                                }
+                            </p>
+                            <div class="d-flex gap-2">
+                                <a href="/Movie/Details/@item.Id" class="btn btn-primary" style="background-color: white; color: black;">Show Details</a>
+                                <a class="btn btn-success text-white  @((DateTime.Now > item.EndDate) ? "disabled" : "")"
+                                   href="/Movie/AddToCart?movieName=@item.Name&"><i class="bi bi-cart-plus"></i> Add to Cart (Price @item.Price.ToString("c"))</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@*                             @model List<Movie>
+@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <div class="alert alert-danger text-center" role="alert">
+        @ViewBag.ErrorMessage
+    </div>
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Movies</title>
+    <style>
+        body {
+            background-color: #f2f2f2; /* لون الرمادي */
+        }
+    </style>
+</head>
+<body>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="row no-gutters">
+                        <div>
+                            <h5 class="card-title bg-secondary text-white p-2 mb-2">
+                                @item.Name
+                                <a asp-controller="Movie" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i></a>
+                            </h5>
+                        </div>
+                        <div class="col-md-4">
+                            <img src="/images/movies/@item.ImgUrl" class="card-img" alt="Movie Image">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <p class="card-text">Price: $@item.Price</p>
+                                @if (item.Cinema != null)
+                                {
+                                    <p> Cinema:@item.Cinema.Name</p>
+                                }
+                                <p class="card-text">Start Date: @item.StartDate.ToString("dd MMM yy")</p>
+                                <p class="card-text">End Date: @item.EndDate.ToString("dd MMM yy")</p>
+
+                                @if (item.Category != null)
+                                {
+                                    <p class="card-text">
+                                        <b>Category: </b>
+                                        <a asp-controller="Categories" asp-action="AllMovies" asp-route-id="@item.Category.CategoryId">@item.Category.Name</a>
+                                    </p>
+                                }
+
+                                <p class="card-text">
+                                    <b>Status: </b>
+                                    @if (DateTime.Now >= item.StartDate && DateTime.Now <= item.EndDate)
+                                    {
+                                        <span class="badge bg-success text-white">AVAILABLE</span>
+                                    }
+                                    else if (DateTime.Now > item.EndDate)
+                                    {
+                                        <span class="badge bg-danger text-white">EXPIRED</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-primary text-white">UPCOMING</span>
+                                    }
+                                </p>
+                                <div class="d-flex gap-2">
+                                    <a href="/Movie/Details/@item.Id" class="btn btn-primary" style="background-color: white; color: black;">Show Details</a>
+                                    <a href="#" class="btn btn-success">Book Ticket</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</body>
+</html> *@

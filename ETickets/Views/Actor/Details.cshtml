@@ -1,0 +1,18 @@
+﻿@model Actor
+
+<div style="border: 2px solid #ccc; border-radius: 10px; padding: 20px; max-width: 100%; margin: 0 auto;">
+    @if (Model != null)
+    {
+        <img src="/images/cast/@Model.ProfilePicture" alt="Actor Image" style="max-width:200px; max-height: 200px; border-radius: 10px; display: block; margin: 50 auto; margin-bottom: 20px;" />
+        <h4 style="text-align: left;">@Model.FirstName @Model.LastName</h4>
+
+        <p style="font-size: 18px; text-align: left;">@Model.News</p>
+    }
+    else
+    {
+        <p style="font-size: 18px; text-align: left;">Actor not found!</p>
+    }
+    <div style="text-align: left;">
+        <a href="@Url.Action("Index", "Movie")" style="text-decoration: none; color: blue; font-size: 16px;">Back to Home</a>
+    </div>
+</div>

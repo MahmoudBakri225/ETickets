@@ -1,0 +1,23 @@
+﻿@model IEnumerable<string>
+
+<h2>Your shopping cart</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Movie</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var movie in @ViewBag.chart)
+        {
+            <tr>
+                <td>@movie</td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+        </tr>
+    </tfoot>
+</table>

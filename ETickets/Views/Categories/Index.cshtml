@@ -1,0 +1,23 @@
+﻿@model List<ETickets.ViewModel.CategoryViewModel>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+           
+            <th>All Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                
+                <td><a href="/Categories/AllMovies/@item.CategoryId">All Movies</a></td>
+                
+             
+            </tr>
+        }
+    </tbody>
+</table>
